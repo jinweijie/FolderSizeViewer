@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.tvFolders = new System.Windows.Forms.TreeView();
             this.btnRun = new System.Windows.Forms.Button();
             this.txtRootFolder = new System.Windows.Forms.TextBox();
@@ -107,7 +108,7 @@
             this.cmsTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mOpenInExplorer});
             this.cmsTree.Name = "cmsTree";
-            this.cmsTree.Size = new System.Drawing.Size(196, 58);
+            this.cmsTree.Size = new System.Drawing.Size(196, 30);
             // 
             // mOpenInExplorer
             // 
@@ -127,6 +128,7 @@
             this.Controls.Add(this.txtRootFolder);
             this.Controls.Add(this.btnRun);
             this.Controls.Add(this.tvFolders);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Main";
             this.Text = "Folder Size Viewer";
             this.cmsTree.ResumeLayout(false);
