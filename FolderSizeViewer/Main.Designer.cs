@@ -28,12 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.tvFolders = new System.Windows.Forms.TreeView();
             this.btnRun = new System.Windows.Forms.Button();
             this.txtRootFolder = new System.Windows.Forms.TextBox();
             this.lRootFolder = new System.Windows.Forms.Label();
             this.txtLog = new System.Windows.Forms.TextBox();
             this.lPrompt = new System.Windows.Forms.Label();
+            this.cmsTree = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.mOpenInExplorer = new System.Windows.Forms.ToolStripMenuItem();
+            this.cmsTree.SuspendLayout();
             this.SuspendLayout();
             // 
             // tvFolders
@@ -43,8 +47,9 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tvFolders.Location = new System.Drawing.Point(13, 60);
             this.tvFolders.Name = "tvFolders";
-            this.tvFolders.Size = new System.Drawing.Size(887, 582);
+            this.tvFolders.Size = new System.Drawing.Size(601, 582);
             this.tvFolders.TabIndex = 0;
+            this.tvFolders.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvFolders_NodeMouseClick);
             this.tvFolders.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.tvFolders_NodeMouseDoubleClick);
             // 
             // btnRun
@@ -96,6 +101,21 @@
             this.lPrompt.TabIndex = 5;
             this.lPrompt.Text = "(Double click nodes to expand sub folders.)";
             // 
+            // cmsTree
+            // 
+            this.cmsTree.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.cmsTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mOpenInExplorer});
+            this.cmsTree.Name = "cmsTree";
+            this.cmsTree.Size = new System.Drawing.Size(196, 58);
+            // 
+            // mOpenInExplorer
+            // 
+            this.mOpenInExplorer.Name = "mOpenInExplorer";
+            this.mOpenInExplorer.Size = new System.Drawing.Size(195, 26);
+            this.mOpenInExplorer.Text = "Open in Explorer";
+            this.mOpenInExplorer.Click += new System.EventHandler(this.mOpenInExplorer_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -109,6 +129,7 @@
             this.Controls.Add(this.tvFolders);
             this.Name = "Main";
             this.Text = "Folder Size Viewer";
+            this.cmsTree.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -122,6 +143,8 @@
         private System.Windows.Forms.Label lRootFolder;
         private System.Windows.Forms.TextBox txtLog;
         private System.Windows.Forms.Label lPrompt;
+        private System.Windows.Forms.ContextMenuStrip cmsTree;
+        private System.Windows.Forms.ToolStripMenuItem mOpenInExplorer;
     }
 }
 

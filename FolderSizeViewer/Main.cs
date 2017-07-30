@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FolderSizeViewer
@@ -18,33 +14,11 @@ namespace FolderSizeViewer
             InitializeComponent();
         }
 
-        private void btnRun_Click(object sender, EventArgs e)
-        {
-            var rootFolder = this.txtRootFolder.Text.Trim();
-            if(!Directory.Exists(rootFolder))
-                return;
-
-            var di = new DirectoryInfo(rootFolder);
-
-            this.tvFolders.Nodes.Add(rootFolder, di.Name);
-
-            Process(this.tvFolders.TopNode, rootFolder);
-        }
-
-
-        private void tvFolders_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            Process(e.Node, e.Node.Name);
-        }
-        private void tvFolders_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-        }
-
-        private void Process(TreeNode node, string folder)
+        private void PopluateFolderSizeInfo(TreeNode node, string folder)
         {
             node.Nodes.Clear();
 
-            string[] subFolders = Directory.GetDirectories(folder);//new string[1]{"c:\\windows"};
+            string[] subFolders = Directory.GetDirectories(folder);
 
             List<FolderInfo> fis = new List<FolderInfo>();
 
@@ -56,7 +30,7 @@ namespace FolderSizeViewer
             }
 
             fis = fis.OrderByDescending(f => f.Size).ToList();
-            
+
             foreach (var fi in fis)
             {
                 node.Nodes.Add(fi.FullPath, fi.Display);
@@ -65,9 +39,46 @@ namespace FolderSizeViewer
             node.ExpandAll();
         }
 
+        #region event handler
+
+        private void btnRun_Click(object sender, EventArgs e)
+        {
+            var rootFolder = this.txtRootFolder.Text.Trim();
+            if(!Directory.Exists(rootFolder))
+                return;
+
+            var di = new DirectoryInfo(rootFolder);
+
+            this.tvFolders.Nodes.Add(rootFolder, di.Name);
+
+            PopluateFolderSizeInfo(this.tvFolders.TopNode, rootFolder);
+        }
+
+        private void mOpenInExplorer_Click(object sender, EventArgs e)
+        {
+            var selectedNode = this.tvFolders.SelectedNode;
+            if (selectedNode != null)
+                Process.Start(selectedNode.Name);
+        }
+
+        private void tvFolders_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            PopluateFolderSizeInfo(e.Node, e.Node.Name);
+        }
+
+        private void tvFolders_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                this.tvFolders.SelectedNode = e.Node;
+                this.cmsTree.Show(this.tvFolders, e.Location);
+            }
+        }
+
+        #endregion
+
         #region Helper Methods
        
-
         public static string GetSizeString(long bytesCount)
         {
             string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" }; //Longs run out around EB
