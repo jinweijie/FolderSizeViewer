@@ -49,6 +49,7 @@ namespace FolderSizeViewer
 
             var di = new DirectoryInfo(rootFolder);
 
+            this.tvFolders.Nodes.Clear();
             this.tvFolders.Nodes.Add(rootFolder, di.Name);
 
             PopluateFolderSizeInfo(this.tvFolders.TopNode, rootFolder);
@@ -106,7 +107,7 @@ namespace FolderSizeViewer
             }
             catch (Exception ex)
             {
-                Log(path + " + " + ex.Message);
+                Log(path + " : " + ex.Message);
             }
 
             DirectoryInfo dir = new DirectoryInfo(path);
